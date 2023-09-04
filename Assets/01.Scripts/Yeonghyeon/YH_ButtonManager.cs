@@ -11,7 +11,13 @@ public class YH_ButtonManager : MonoBehaviour
     [SerializeField] Image main;
     [SerializeField] Image explanation;
     [SerializeField] TextMeshProUGUI explanationTxt;
+    [SerializeField] TextMeshProUGUI scoreTxt;
 
+
+    private void Start()
+    {
+        Score();
+    }
 
     public void ExplanationBtn()
     {
@@ -31,5 +37,15 @@ public class YH_ButtonManager : MonoBehaviour
     public void StartBtn()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void QuitBtn()
+    {
+        Application.Quit();
+    }
+
+    void Score()
+    {
+        scoreTxt.text = sgm_GameManager.Instance.socre+"V";
     }
 }
