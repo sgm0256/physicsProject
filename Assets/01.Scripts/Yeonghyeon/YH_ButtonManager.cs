@@ -46,6 +46,6 @@ public class YH_ButtonManager : MonoBehaviour
 
     void Score()
     {
-        scoreTxt.text = sgm_GameManager.Instance.socre+"V";
+        scoreTxt.text = sgm_GameManager.Instance.Score+"V";
     }
 }

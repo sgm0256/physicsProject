@@ -27,7 +27,7 @@ public class Magnet : MonoBehaviour
         if (tween != null && tween.IsActive()) return;
         if (transform.position.y <= 1f)
         {
-            YSGameManager.Instance.IsUnderS = spriteRenderer.sprite == magnetSpr[0];
+            
             tween = transform.DOMoveY(-6.5f, 0.2f).OnComplete(() =>
             {
                 //
