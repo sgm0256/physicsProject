@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class YH_ButtonManager : MonoBehaviour
@@ -25,5 +26,10 @@ public class YH_ButtonManager : MonoBehaviour
         main.DOFade(0f, 0.5f);
         explanation.DOFade(0f, 0.5f);
         explanationTxt.DOFade(0f, 0.5f).OnComplete(() => main.gameObject.SetActive(false));
+    }
+
+    public void StartBtn()
+    {
+        SceneManager.LoadScene(1);
     }
 }
