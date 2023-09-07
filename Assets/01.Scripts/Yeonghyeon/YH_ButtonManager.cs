@@ -13,12 +13,6 @@ public class YH_ButtonManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI explanationTxt;
     [SerializeField] TextMeshProUGUI scoreTxt;
 
-
-    private void Start()
-    {
-        Score();
-    }
-
     public void ExplanationBtn()
     {
         main.gameObject.SetActive(true);
@@ -42,10 +36,5 @@ public class YH_ButtonManager : MonoBehaviour
     public void QuitBtn()
     {
         Application.Quit();
-    }
-
-    void Score()
-    {
-        scoreTxt.text = sgm_GameManager.Instance.Score+"V";
     }
 }
