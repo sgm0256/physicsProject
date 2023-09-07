@@ -4,7 +4,7 @@ public class YSGameManager : MonoBehaviour
 {
     public static YSGameManager Instance;
 
-    public bool IsUnderS;
+    [SerializeField] private Material _material;
 
     private void Awake()
     {
