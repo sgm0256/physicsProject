@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using DG.Tweening;
-using Random = UnityEngine.Random;
 
 public class Magnet : MonoBehaviour
 {

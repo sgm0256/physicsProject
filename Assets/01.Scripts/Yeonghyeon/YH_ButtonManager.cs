@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,8 +9,7 @@ public class YH_ButtonManager : MonoBehaviour
     [SerializeField] Image main;
     [SerializeField] Image explanation;
     [SerializeField] TextMeshProUGUI explanationTxt;
-    [SerializeField] TextMeshProUGUI scoreTxt;
-
+    
     public void ExplanationBtn()
     {
         main.gameObject.SetActive(true);
@@ -30,11 +27,12 @@ public class YH_ButtonManager : MonoBehaviour
 
     public void StartBtn()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
 
     public void QuitBtn()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 }
