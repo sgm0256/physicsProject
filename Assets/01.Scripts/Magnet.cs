@@ -10,7 +10,7 @@ public class Magnet : MonoBehaviour
 
     private int _spriteIdx;
 
-    SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
     private Tween tween;
 
     private void Awake()
@@ -30,7 +30,7 @@ public class Magnet : MonoBehaviour
 
     private void Seperate()
     {
-        if (tween != null && tween.IsActive()) return;
+        if (tween != null && tween.IsActive() || Time.timeScale < 0.5f) return;
         if ((int)Input.GetAxisRaw("Horizontal") == -1) MoveTween(0);
         if ((int)Input.GetAxisRaw("Horizontal") == 1) MoveTween(1);
     }
@@ -43,7 +43,7 @@ public class Magnet : MonoBehaviour
             else
             {
                 sgm_GameManager.Instance.Minus();
-                sgm_GameManager.Instance.Damaged(1, 0);
+                sgm_GameManager.Instance.Damaged();
             } 
             tween = transform.DOMoveY(-6.5f, 0.25f).OnComplete(() =>
             {

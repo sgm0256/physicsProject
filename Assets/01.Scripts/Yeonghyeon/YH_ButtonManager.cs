@@ -13,7 +13,7 @@ public class YH_ButtonManager : MonoBehaviour
     public void ExplanationBtn()
     {
         main.gameObject.SetActive(true);
-        main.DOFade(0.9f, 0.5f);
+        main.DOFade(1f, 0.5f);
         explanation.DOFade(1f, 0.5f);
         explanationTxt.DOFade(1f, 0.5f);
     }
@@ -27,7 +27,6 @@ public class YH_ButtonManager : MonoBehaviour
 
     public void StartBtn()
     {
-        Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
 

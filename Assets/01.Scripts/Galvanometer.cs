@@ -18,8 +18,10 @@ public class Galvanometer : MonoBehaviour
 
     private void Separate()
     {
+        if (Time.timeScale < 0.5f) return;
         if ((int)Input.GetAxisRaw("Horizontal") == -1)
         { 
+            if (_seq != null && _seq.IsActive()) _seq.Kill();
             _seq = DOTween.Sequence();
             _seq.Append(_needleTrm.DORotateQuaternion(Quaternion.Euler(0, 0, 50), 0.1f).SetEase(Ease.InOutCubic));
             _seq.Append(_needleTrm.DORotateQuaternion(Quaternion.Euler(0, 0, -50), 0.3f).SetEase(Ease.InOutCubic));
@@ -27,6 +29,7 @@ public class Galvanometer : MonoBehaviour
         }
         if ((int)Input.GetAxisRaw("Horizontal") == 1)
         {
+            if (_seq != null && _seq.IsActive()) _seq.Kill();
             _seq = DOTween.Sequence();
             _seq.Append(_needleTrm.DORotateQuaternion(Quaternion.Euler(0, 0, -50), 0.1f).SetEase(Ease.InOutCubic));
             _seq.Append(_needleTrm.DORotateQuaternion(Quaternion.Euler(0, 0, 50), 0.3f).SetEase(Ease.InOutCubic));

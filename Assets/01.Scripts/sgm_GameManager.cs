@@ -1,11 +1,21 @@
-using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class sgm_GameManager : MonoSingleton<sgm_GameManager>
+public class sgm_GameManager : MonoBehaviour
 {
+    public static sgm_GameManager _instance;
+
+    public static sgm_GameManager Instance
+    {
+        get
+        {
+            _instance ??= FindObjectOfType<sgm_GameManager>();
+            return _instance;
+        }
+    }
+
     private Transform _canvasTrm;
     
     private Slider hpBarSlider;
@@ -17,15 +27,17 @@ public class sgm_GameManager : MonoSingleton<sgm_GameManager>
     [SerializeField] private Material _material;
     private readonly int _valueHash = Shader.PropertyToID("_Value");
 
-    private bool isGameEnd;
-    private float divideValue = 100f;
-    private float _value = 0.15f;
-    private float score;
+    private float divideValue = 200f;
+    private float score = 0;
+    private float _time;
 
     private Tween _tween;
+    private bool _isActivePanel;
 
     private void Awake()
     {
+        _instance ??= this;
+        
         _canvasTrm = GameObject.Find("Canvas").transform;
 
         hpBarSlider = _canvasTrm.Find("HPBarSlider").GetComponent<Slider>();
@@ -33,12 +45,11 @@ public class sgm_GameManager : MonoSingleton<sgm_GameManager>
         gameOverPanel = _canvasTrm.Find("GameOverPanel").gameObject;
         endScoreTxt = gameOverPanel.transform.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         _quitPanel = _canvasTrm.Find("QuitPanelBackground").gameObject;
-        
-        InitializeApplicationQuit();
     }
 
     private void Start()
     {
+        Time.timeScale = 1;
         gameOverPanel.SetActive(false);
         _quitPanel.SetActive(false);
         _material.SetFloat(_valueHash, 0);
@@ -47,8 +58,7 @@ public class sgm_GameManager : MonoSingleton<sgm_GameManager>
 
     private void Update()
     {
-        _value += Time.deltaTime / divideValue;
-        MinusLife(_value);
+        MinusLife();
         OnGetButtonEsc();
         GameOver();
     }
@@ -57,16 +67,16 @@ public class sgm_GameManager : MonoSingleton<sgm_GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (_quitPanel.activeSelf)
+            if (_isActivePanel)
             {
-                Time.timeScale = 0;
-                _quitPanel.SetActive(true);
-                return;
+                OnClickQuitCancel();
+                _isActivePanel = false;
             }
             else
             {
-                OnClickQuitCancel();
-                return;
+                _quitPanel.SetActive(true);
+                Time.timeScale = 0;
+                _isActivePanel = true;
             }
         }
     }
@@ -74,20 +84,21 @@ public class sgm_GameManager : MonoSingleton<sgm_GameManager>
     public void Plus()
     {
         score += 10;
-        hpBarSlider.value += 15 + _value * 15f;
         ScoreUpdate();
+        hpBarSlider.value += 25;
     }
 
     public void Minus()
     {
-        hpBarSlider.value -= 15 + _value * 15f;
+        hpBarSlider.value -= 15;
     }
 
-    private void MinusLife(float value)
+    private void MinusLife()
     {
-        hpBarSlider.value -= value;
+        _time += Time.deltaTime * Time.timeScale;
+        hpBarSlider.value -= (Time.deltaTime + _time / divideValue) * Time.timeScale;
     }
-    void ScoreUpdate()
+    private void ScoreUpdate()
     {
         scoreTxt.text = "점수 : " + score;
     }
@@ -102,15 +113,15 @@ public class sgm_GameManager : MonoSingleton<sgm_GameManager>
         }
     }
 
-    public void Damaged(float startValue, float endValue)
+    public void Damaged()
     {
         _tween.Kill();
-        _material.SetFloat(_valueHash, startValue);
+        _material.SetFloat(_valueHash, 1);
         _tween = DOTween.To
         (
             () => _material.GetFloat(_valueHash),
             value => _material.SetFloat(_valueHash, value),
-            endValue,
+            0,
             0.5f
         );
     }
